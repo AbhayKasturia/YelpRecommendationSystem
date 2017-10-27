@@ -1,0 +1,27 @@
+
+cleaning
+- based on is_open
+- Filter business with few reviews (to be dicided)
+- Top 12 cities  (to be dicided)
+- consider only resturants
+
+Analysis
+-  Number of business
+   - Total
+   - By City 
+   - By Category
+- Number of reviews per business
+- Distribution (Histogram)
+  - Overall Star rating
+  - Star rating by category
+  - Rating given by user (User.json)
+  - Number of useful reviews
+  - User with useful count
+- Popular categories
+ - by city (consider total number of reviews)
+- Map business by category in different cities
+- User Growth during years
+- Popular business based on check-in timing (consider weekday and weekend seperately)
+  - Categorize by lunch, dinner
+  - by City, By Zipcode
+   
