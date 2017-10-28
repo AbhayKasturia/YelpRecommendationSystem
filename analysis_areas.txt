@@ -6,12 +6,12 @@ cleaning
 - consider only resturants
 
 Analysis
--  Number of business
+-  Number of business - Aditya
    - Total
    - By City 
    - By Category
-- Number of reviews per business
-- Distribution (Histogram)
+- Number of reviews per business - Aditya
+- Distribution (Histogram) - Aditya
   - Overall Star rating
   - Star rating by category
   - Rating given by user (User.json)
