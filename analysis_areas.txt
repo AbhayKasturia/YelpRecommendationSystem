@@ -1,0 +1,27 @@
+
+cleaning
+- based on is_open
+- Filter business with few reviews (to be decided)
+- Top 12 cities (to be decided)
+- consider only resturants
+
+Analysis
+-  Number of business - Aditya
+   - Total
+   - By City 
+   - By Category
+- Number of reviews per business - Aditya
+- Distribution (Histogram) - Aditya
+  - Overall Star rating
+  - Star rating by category
+  - Rating given by user (User.json)
+  - Number of useful reviews
+  - User with useful count
+- Popular categories
+ - by city (consider total number of reviews)
+- Map business by category in different cities
+- User Growth during years - Abhay
+- Popular business based on check-in timing (consider weekday and weekend seperately)
+  - Categorize by lunch, dinner - Abhay
+  - by City, By Zipcode - Abhay
+   
