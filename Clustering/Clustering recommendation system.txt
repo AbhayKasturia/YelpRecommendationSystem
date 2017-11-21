@@ -1,0 +1,49 @@
+
+
+Clustering 
+
+Clustering is based on the the reviews of users. From the reviews we can build vector for each user and business with preference on different category of business. By compute the distance of these two vectors, we can recommend business to user with the most similar preference vector value.
+
+There are basically four steps:
+1. compose the preference vector of both users and businesses.
+2. clustering on user to generate a more general user preference vector
+3. calculating similarity of user preference and business preference
+4. generating recommendations
+
+Vector Calculating
+
+Preference Vector is built on a common top 20 categories of a certain type of business such as 'Restuarant'. That's saying 20 kinds of restuarant like 'Spanish', 'Chinese', 'Mexican', 'Indian' and so on. Based on users' each review, we can get the preference rating from 1 to 5 for a particular business, from which we can generate a rating value for each of the category in that particular business. For those categories user does not have review on, we assign a value of 1. Thus we get a vector of rating value on all top 20 categories for each user. The same procedure goes to business.
+
+Vector comes with format '[1,2,3, ...]', with respect to a list of categories '[Indian, Chinese, Mexican, Spanish, ...]'.
+
+Clustering On Users
+
+Given the vector of each user, we can calculate the euclidean distance of each pair of users. Then do a average agglomerative clustering on the users' distance matrix.
+
+Calculating Similarity
+
+
+Generating Recommendations
+
+Evaluation
+
+Evaluation of the clustering
+Use Cophenetic Correlation to evaluate the quality of the clustering
+
+Evaluation of the recommendation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
