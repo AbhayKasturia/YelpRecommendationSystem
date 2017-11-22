@@ -64,7 +64,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	\end{titlepage}
 	
 	\section{Introduction and Related Work}
-	A recommender system or a recommendation system is a subclass of information filtering systems that seeks to predict the rating or preference that a user would give to an item \cite{rsw}. Recommendations systems have become very relevant today given the presence of e-commerce website like Amazon and Netflix as well as other platforms like Facebook and Youtube. These are utilized in a variety of areas such as movies, music, videos, news, books, research articles, search queries and products in case of Amazon. Two most common methods to build a recommendation system are collaborative filtering and content-based filtering. Collaborative filtering methods use user's past behaviors and behaviors of similar users to find items which a user might like. Content-based methods use the features of the items liked by the user to suggest similar items. There are also hybrid recommendation system which combine both of these techniques.
+		A recommender system or a recommendation system is a subclass of information filtering systems that seeks to predict the rating or preference that a user would give to an item \cite{rsw}. Recommendations systems have become very relevant today given the presence of e-commerce website like Amazon and Netflix as well as other platforms like Facebook and Youtube. These are utilized in a variety of areas such as movies, music, videos, news, books, research articles, search queries and products in case of Amazon. Two most common methods to build a recommendation system are collaborative filtering and content-based filtering. Collaborative filtering methods use user's past behaviors and behaviors of similar users to find items which a user might like. Content-based methods use the features of the items liked by the user to suggest similar items. There are also hybrid recommendation system which combine both of these techniques.
 	
 	\bigskip
 	
@@ -121,29 +121,64 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
      	\includegraphics[scale=0.5] {category_map.png}
      	\caption{Resturant Sub-categories}
      \end{figure}
+      
+
  	\subsubsection{Checkin Data}
  	Finally, we did analysis on use checkin data to find out popular timing in the top cities shown in our earlier analysis.
  
- 	\begin{figure}[h]
+      \begin{figure}[h]
  		\centering
  		\includegraphics[scale=0.5] {checkin_times.png}
- 		\caption{Resturant Sub-categories}
+ 		\caption{Checkin Times}
  	\end{figure}
+ 	
 	\section{Methods}
 		
 		\subsection{Clustering Based Approach}
 		
 		\subsection{Collaborative Filtering}
-		
+		Collaborative Filtering is the method to implement recommedation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
+	 
+	 		\begin{figure}[h]
+					\centering
+					\includegraphics[scale=0.5]{uservsitem.png}
+					\caption{UserVsBusiness - Stars Rating Value}
+			\end{figure}
+	 
+While doing this, we face two issues 
+1. As expected, there are a lot of missing values in matrix(for items which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
+2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}\\
+
+To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
+	
 		\subsection{Collaborative Deep Learing}
-		We are using Colloborative Deep Learning \cite{cdl} (CDL) approach suggested by Hao Wang and others. We looked at various deep learning approaches towards building recommendation systems and we choose this work as this was generally applicable compared to other techniques which either target music or videos recommendations. CDL is a heirarchical Bayesian model. Stacked Denoising autencoders \cite{sdae} are used for feature learning and cleaning the noise from the input. In below sections, I will be brief about the input parameters and neural network arcitecture.
 		
-		\subsubsection{Stacked Denoising Autoencoders}
+		
 		
 	
 	\section{Experiments and Results}
 	
+	\subsection{User-User Collaborative Filtering}
+
+	For the initial setup, we have worked on 100,000 rows of reviews.json file. We have created a matrix of 78276 users and 4224 businesses.We randomly choose one user to find the set of similar users of count 200. Based on positive average star ratings given by 200 users, 531 set of businesses are recommended to users.
+	
+	
+	
 	\section{Future work}
+	\begin{enumerate}
+		\item All the algorithms are run on a small subset of data. Look into distributive processing framework(Spark), to perform the same on all the data or leverage the Google Cloud Platform.
+		\item Finalize evaluation criteria. The general approach that we plan to take would be:
+		\begin{enumerate}
+			\item Divide training and test data based on the timeline of reviews - to get past activity and future activity.
+			\item Define users in future activity as target users. Use the past activity of the target users to make recommendations.
+			\item Evaluate the recommendation as correct, if the recommendation shows up in the users future activity.
+			\item Get the total accuracy based on the same and evaluate our model!
+		\end{enumerate}
+		\item Handle the problem of cold  start - where a new business or a user is added. The general approach here would be to recommend the most popular business to the new user. Have to search for a way to tackle new businesses.
+		
+	\end{enumerate}
+	1. 
+	2. 
 	
 	
 	\begin{thebibliography}{9}
@@ -152,12 +187,12 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	\bibitem{yelp} Yelp Dataset Challenge \url{https://www.yelp.com/dataset_challenge}
 	\bibitem{rsw} Recommendation System Wiki \url{https://en.wikipedia.org/wiki/Recommender_system}
 	\bibitem{cfilter}Collaborative filtering \url{https://en.wikipedia.org/wiki/Collaborative_filtering}
+		\bibitem{cfiltervid}Collaborative filtering Techniques \url{https://www.youtube.com/watch?v=h9gpufJFF-0}
+		\bibitem{mov}Movie Recommenation System \url{https://beckernick.github.io/matrix-factorization-recommender/}
 	\bibitem{ydeep} Paul Covington, Jay Adams, Emre Sargin \textit{Deep Neural Networks for YouTube Recommendations}, ACM 2016.
 	\bibitem{cdl} Hao Wang, Naiyan Wang, Dit-Yan Yeung\textit{Collaborative Deep Learning for Recommender Systems}, ACM 2015
-	\bibitem{sdae} P. Vincent, H. Larochelle, I. Lajoie, Y. Bengio, and
-	P.-A. Manzagol. \textit{Stacked denoising autoencoders:
-		Learning useful representations in a deep network with
-		a local denoising criterion.} JMLR, 11:3371–3408, 2010
+	\bibitem{vid1} Lecture on CF - Stanford \url{https://www.youtube.com/watch?v=h9gpufJFF-0&t=854s}
+	\bibitem{vid2} Recommendation System Netflix \url{https://www.youtube.com/watch?v=bLhq63ygoU8&t=5598s}
 	\end{thebibliography}
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
