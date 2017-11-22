@@ -115,11 +115,11 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	     	\includegraphics[scale=0.7] {top_categroies.png}
 	     	\caption{Top Business Categories}
 	     \end{figure}
-     We did more analysis into sub-categories of our most popular category i.e. resturants to map its distribution.
+     We did more analysis into sub-categories of our most popular category i.e. restaurants to map its distribution.
       \begin{figure}[h]
      	\centering
      	\includegraphics[scale=0.5] {category_map.png}
-     	\caption{Resturant Sub-categories}
+     	\caption{Restaurant Sub-categories}
      \end{figure}
       
 
@@ -137,7 +137,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		\subsection{Clustering Based Approach}
 		
 		\subsection{Collaborative Filtering}
-		Collaborative Filtering is the method to implement recommedation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
+		Collaborative Filtering is the method to implement recommendation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
 	 
 	 		\begin{figure}[h]
 					\centering
@@ -145,17 +145,39 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 					\caption{UserVsBusiness - Stars Rating Value}
 			\end{figure}
 	 
-While doing this, we face two issues 
-1. As expected, there are a lot of missing values in matrix(for items which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
-2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}\\
-
-To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
+		While doing this, we face two issues 
+		1. As expected, there are a lot of missing values in matrix(for items which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
+		2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}\\
+		
+		To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
 	
-		\subsection{Collaborative Deep Learing}
+		\subsection{Collaborative Deep Learing} 
+		We are using Collaborative Deep Learning \cite{cdl} (CDL) approach suggested by Hao Wang and team. We looked at various deep learning approaches towards building recommendation systems and we choose this work as it was generally applicable compared to other techniques which either target music or videos recommendations. CDL is a hierarchical Bayesian model. Stacked Denoising autoencoders \cite{sdae} are used for feature learning and cleaning the noise from the input. In below sections, I will be brief about the input parameters and neural network architecture.
 		
+		\subsubsection{Notation and Problem Formulation}
+		As explained in \cite{cdl}, collection of J items (business) is represented by J-by-S matrix $X_c$, where row j is the bag-of-words vector $X_{c,j*}$ for item j based on a vocabulary size S. Assuming I users, an I-by-J rating matrix R. Given part of the ratings in R and the content information Xc, the problem is to predict the other ratings in R. Here, $X_c$ is the clean matrix after using SDAE and $X_o$ is the noise-corrupted matrix.
+		  
+		\subsubsection{Stacked Denoising Autoencoders}
+		SDAE \cite{sdae} is a feedforward neural network for learning representations (encoding) of the input data by learning to predict the clean input itself in the output as shown in figure
+		\begin{figure}[h]
+			\centering
+			\includegraphics[scale=0.7]{sdae.png}
+			\caption{Stacked Denoising Autoencoders}
+		\end{figure}
 		
+		\subsubsection{Collaborative Deep Learing Model}
+		Below figures show the model in detail, where W is weight matrix. The part inside the dashed rectangle represents an SDAE. An example SDAE with L=2 is shown. Here, $\lambda_w$, $\lambda_n$, $\lambda_u$, $\lambda_s$ and $\lambda_v$ are hyper-parameters. The middle layer $X_{L/2}$ serves as a bridge between the ratings and content information. 
 		
-	
+		\begin{figure}[h]
+			\centering
+			\includegraphics[scale=0.7]{cdl.png}
+			\caption{Graphical model of CDL}
+		\end{figure}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[scale=0.7]{cdl1.png}
+			\caption{NN representation for degenerated CDL}
+		\end{figure}
 	\section{Experiments and Results}
 	
 	\subsection{User-User Collaborative Filtering}
@@ -166,6 +188,7 @@ To recommend new businesses to a target user 'target', we find the cosine simila
 	
 	\section{Future work}
 	\begin{enumerate}
+		\item Modify original collaborative deep learning implementation\cite{cdli} of paper \cite{cdl} to analyze our dataset.
 		\item All the algorithms are run on a small subset of data. Look into distributive processing framework(Spark), to perform the same on all the data or leverage the Google Cloud Platform.
 		\item Finalize evaluation criteria. The general approach that we plan to take would be:
 		\begin{enumerate}
@@ -177,11 +200,8 @@ To recommend new businesses to a target user 'target', we find the cosine simila
 		\item Handle the problem of cold  start - where a new business or a user is added. The general approach here would be to recommend the most popular business to the new user. Have to search for a way to tackle new businesses.
 		
 	\end{enumerate}
-	1. 
-	2. 
 	
-	
-	\begin{thebibliography}{9}
+	\begin{thebibliography}{99}
 		% NOTE: change the "9" above to "99" if you have MORE THAN 10 references.
 		
 	\bibitem{yelp} Yelp Dataset Challenge \url{https://www.yelp.com/dataset_challenge}
@@ -193,6 +213,11 @@ To recommend new businesses to a target user 'target', we find the cosine simila
 	\bibitem{cdl} Hao Wang, Naiyan Wang, Dit-Yan Yeung\textit{Collaborative Deep Learning for Recommender Systems}, ACM 2015
 	\bibitem{vid1} Lecture on CF - Stanford \url{https://www.youtube.com/watch?v=h9gpufJFF-0&t=854s}
 	\bibitem{vid2} Recommendation System Netflix \url{https://www.youtube.com/watch?v=bLhq63ygoU8&t=5598s}
+	\bibitem{sdae} P. Vincent, H. Larochelle, I. Lajoie, Y. Bengio, and
+	P.-A. Manzagol. \textit{Stacked denoising autoencoders:
+		Learning useful representations in a deep network with
+		a local denoising criterion.} JMLR, 11:3371–3408, 2010
+	\bibitem{cdli} CDL Implementation \url{https://github.com/hexiangnan/neural_collaborative_filtering}
 	\end{thebibliography}
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
