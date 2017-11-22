@@ -121,26 +121,46 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
      	\includegraphics[scale=0.5] {category_map.png}
      	\caption{Resturant Sub-categories}
      \end{figure}
+      
+
  	\subsubsection{Checkin Data}
  	Finally, we did analysis on use checkin data to find out popular timing in the top cities shown in our earlier analysis.
  
- 	\begin{figure}[h]
+      \begin{figure}[h]
  		\centering
  		\includegraphics[scale=0.5] {checkin_times.png}
- 		\caption{Resturant Sub-categories}
+ 		\caption{Checkin Times}
  	\end{figure}
+ 	
 	\section{Methods}
 		
 		\subsection{Clustering Based Approach}
 		
 		\subsection{Collaborative Filtering}
-		
+		Collaborative Filtering is the method to implement recommedation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users of similar type as 'u1'. We started with creating a matrix for users as rows and business as columns. Values in matrix contains the number of stars given by user to the particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
+	 
+	 		\begin{figure}[h]
+					\centering
+					\includegraphics[scale=0.5]{uservsitem.png}
+					\caption{UserVsBusiness - Stars Rating Value}
+			\end{figure}
+	 
+There are lot of missing values in matrix(for items which user has not given rating) and also the there is an issue of handling the rating given by soft users and hard users. Some users may rate the business they like with average star ratings or some may rate the business they don't like with good star ratings or so. We have used centered cosine similarity to group the similar users to handle the above mentioned issues. For centered cosine, we normalize the ratings by substracting row mean for each user and missing values are treated as zero average value.\\
+
+To recommend the businesses to user 'u', we are finding the cosine similarity between all other users and 'u'. Businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommendeded to user 'u'.
+	
 		\subsection{Collaborative Deep Learing}
 		
 		
 		
 	
 	\section{Experiments and Results}
+	
+	\subsection{User-User Collaborative Filtering}
+
+	For the initial setup, we have worked on 100,000 rows of reviews.json file. We have created a matrix of 78276 users and 4224 businesses.We randomly choose one user to find the set of similar users of count 200. Based on positive average star ratings given by 200 users, 531 set of businesses are recommended to users.
+	
+	
 	
 	\section{Future work}
 	
@@ -151,6 +171,8 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	\bibitem{yelp} Yelp Dataset Challenge \url{https://www.yelp.com/dataset_challenge}
 	\bibitem{rsw} Recommendation System Wiki \url{https://en.wikipedia.org/wiki/Recommender_system}
 	\bibitem{cfilter}Collaborative filtering \url{https://en.wikipedia.org/wiki/Collaborative_filtering}
+		\bibitem{cfiltervid}Collaborative filtering Techniques \url{https://www.youtube.com/watch?v=h9gpufJFF-0}
+		\bibitem{mov}Movie Recommenation System \url{https://beckernick.github.io/matrix-factorization-recommender/}
 	\bibitem{ydeep} Paul Covington, Jay Adams, Emre Sargin \textit{Deep Neural Networks for YouTube Recommendations}, ACM 2016.
 	\bibitem{cdl} Hao Wang, Naiyan Wang, Dit-Yan Yeung\textit{Collaborative Deep Learning for Recommender Systems}, ACM 2015
 	\end{thebibliography}
