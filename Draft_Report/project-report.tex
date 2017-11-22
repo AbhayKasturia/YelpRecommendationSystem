@@ -6,7 +6,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 
-
+\usepackage{float}
 \usepackage{epsfig}
 \usepackage{verbatim}
 \usepackage{graphicx}
@@ -72,7 +72,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	\section{Dataset and Analysis} 
 		\subsection{Dataset}
 		 The original dataset described in the Yelp Dataset Challenge 10 \cite{yelp} has 4.7M reviews and 1M tips by 1.1M users for 156K businesses spread across 12 cities. The 	data is given in json format which include business.json, review.json, user.json, checkin.json and tip.json.Each business has name, address, star rating and textual reviews. Each individual review data consists of anonymized IDs for the business, user and review, star rating, review type, review text and votes on how useful, funny or cool the review is.
-		\begin{figure}[h]
+		\begin{figure}[H]
 				\centering
 				\includegraphics[scale=0.5]{data_details.png}
 				\caption{Dataset Details}
@@ -82,21 +82,21 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 			\subsubsection{User data}
 			There are 1183362 total users whose reviews are present in the dataset. We plotted a histogram to understand the distribution of user reviews. Looking at the histogram, we can observe that most of the user have very few reviews and some top users have significant number of reviews. Majority of user have 25 or less reviews which is also shown by a mean of 23..72 and standard deviation of 80.5. The maximum number of reviews given by any user is 11656.
 		
-			\begin{figure}[h]
+			\begin{figure}[H]
 					\centering
 					\includegraphics[scale=0.5]{h_user_review.png}
 					\caption{Review count per user}
 			\end{figure}
 		  In addition to number of reviews, we also looked at distribution of star ratings given by a user. Looking at the histogram, we can observe that more users give higher rating which is shown by a median of 3.89 star rating. Mean and standard deviation for the same are 3.71 and 1.10 respectively. In order to group the reviews as positive, average and negative reviews, we have used the following method. We assume that if the rating lies in the range of (mean – standard deviation, mean) which is 2.6 to 3.7, we will categorize it as average. Reviews lower than 2.6 will be considered as a negative review and anything greater than 3.7 will be considered as positive reviews with two extremes being 0 and 1. 
 		 
-		  \begin{figure}[h]
+		  \begin{figure}[H]
 		  	\centering
 		  	\includegraphics[scale=0.7] {h_user_rating.png}
 		  	\caption{Rating per user}
 		  \end{figure}
 	     We also did some analysis to see the user growth on yelp. User growth has started declining after an increase in users joining from 2005 to 2014 .
 	     
-	      \begin{figure}[h]
+	      \begin{figure}[H]
 	     	\centering
 	     	\includegraphics[scale=0.5] {user_growth.png}
 	     	\caption{User Growth}
@@ -105,18 +105,18 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
      	\subsubsection{Business Data}
      	There are total 156639 business in the dataset. We grouped business according to city and business category to determine popular cities and categories. Below pie-charts give idea about popular cities and categories.
      	
-     	\begin{figure}[h]
+     	\begin{figure}[H]
      		\centering
      		\includegraphics[scale=0.7] {top_cities.png}
      		\caption{Top cities}
      	\end{figure}
-	     \begin{figure}[h]
+	     \begin{figure}[H]
 	     	\centering
 	     	\includegraphics[scale=0.7] {top_categroies.png}
 	     	\caption{Top Business Categories}
 	     \end{figure}
      We did more analysis into sub-categories of our most popular category i.e. restaurants to map its distribution.
-      \begin{figure}[h]
+      \begin{figure}[H]
      	\centering
      	\includegraphics[scale=0.5] {category_map.png}
      	\caption{Restaurant Sub-categories}
@@ -126,7 +126,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
  	\subsubsection{Checkin Data}
  	Finally, we did analysis on use checkin data to find out popular timing in the top cities shown in our earlier analysis.
  
-      \begin{figure}[h]
+      \begin{figure}[H]
  		\centering
  		\includegraphics[scale=0.5] {checkin_times.png}
  		\caption{Checkin Times}
@@ -138,15 +138,15 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		Clustering is based on the reviews of users. From the reviews we can build vector for each user and business with preference on different categories of businesses. By computing the distance of these two vectors, we can recommend businesses to user with the most similar preference vector value.
 		There are basically four steps:- 
 		\begin{enumerate}
-			\item  compose the preference vector of both users and businesses.
-			\item  clustering on user to generate a more general user preference vector
-			\item  calculating similarity of user preference and business preference
+			\item  Compose the preference vector of both users and businesses.
+			\item  Clustering on user to generate a more general user preference vector
+			\item  Calculating similarity of user preference and business preference
 			\item  Generating recommendations
 		\end{enumerate}
 		
 		\subsubsection{Vector Calculating}
 		Preference Vector is built on a common top 20 categories of a certain type of business such as 'Restaurant'. That's saying 20 kinds of restaurant like 'Spanish', 'Chinese', 'Mexican', 'Indian' and so on.
-		 \begin{figure}[h]
+		 \begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.5] {vector1.png}
 			\caption{Top 20 Categories}
@@ -154,15 +154,15 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	
 		Based on users' each review, we can get the preference rating from 1 to 5 for a particular business, from which we can generate a rating value for each of the category in that particular business. For those categories user does not have review on, we assign a value of 1. Thus we get a vector of rating value on all top 20 categories for each user. The same procedure goes to business.
 		Vector comes with format '[1,2,3, ...]', with respect to a list of categories '[Indian, Chinese, Mexican, Spanish, ...]'.
-		 \begin{figure}[h]
+		 \begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.5] {vector2.png}
 			\caption{Top 20 Categories}
 		\end{figure}
 		
 		\subsubsection{Clustering on Users}
-		Given the vector of each user, we can calculate the Euclidean distance of each pair of users. Then perform average agglomerative clustering on the users' distance matrix. Dendogram after performing clustering on 8000 users is as shown in figure. Based on the above dendogram we can decide on a cut-off point to get number of clusters. For the above dendogram we selected 10 clusters. 
-		 \begin{figure}[h]
+		Given the vector of each user, we can calculate the Euclidean distance of each pair of users. Then perform average agglomerative clustering on the users' distance matrix. Dendogram after performing clustering on 8000 users is as shown in figure. Based on the dendogram we can decide on a cut-off point to get number of clusters. From the dendogram we selected 10 clusters. 
+		 \begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.5] {dendogram.png}
 			\caption{Dendogram after Clustering}
@@ -171,7 +171,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		\subsection{Collaborative Filtering}
 		Collaborative Filtering is the method to implement recommendation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
 	 
-	 		\begin{figure}[h]
+	 		\begin{figure}[H]
 					\centering
 					\includegraphics[scale=0.5]{uservsitem.png}
 					\caption{UserVsBusiness - Stars Rating Value}
@@ -191,7 +191,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		  
 		\subsubsection{Stacked Denoising Autoencoders}
 		SDAE \cite{sdae} is a feedforward neural network for learning representations (encoding) of the input data by learning to predict the clean input itself in the output as shown in figure
-		\begin{figure}[h]
+		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.7]{sdae.png}
 			\caption{Stacked Denoising Autoencoders}
@@ -200,12 +200,12 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		\subsubsection{Collaborative Deep Learing Model}
 		Below figures show the model in detail, where W is weight matrix. The part inside the dashed rectangle represents an SDAE. An example SDAE with L=2 is shown. Here, $\lambda_w$, $\lambda_n$, $\lambda_u$, $\lambda_s$ and $\lambda_v$ are hyper-parameters. The middle layer $X_{L/2}$ serves as a bridge between the ratings and content information. 
 		
-		\begin{figure}[h]
+		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.7]{cdl.png}
 			\caption{Graphical model of CDL}
 		\end{figure}
-		\begin{figure}[h]
+		\begin{figure}[H]
 			\centering
 			\includegraphics[scale=0.7]{cdl1.png}
 			\caption{NN representation for degenerated CDL}
@@ -213,17 +213,17 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	\section{Experiments and Results}
 	\subsection{Clustering Based Approach}
 	\subsubsection{Calculating Similarity and Generating Recommendations}
-	Based on users clustering dendogram shown in figure, we generate an average vector representing user preference vector. Then we Do an inner product of user vector and business vector. Smaller the value, more similar the user and the business. From the results, we choose top 10 or 20 business with the minimum value as the recommendations. Below is a sample for user with user is: 'McLqvYLBQoCFQikU9dC4cQ' searching for “Restaurants”.
+	Based on users clustering dendogram shown in figure, we generate an average vector representing user preference vector. Then we do an inner product of user vector and business vector. Smaller the value, more similar the user and the business. From the results, we choose top 10 or 20 business with the minimum value as the recommendations. Below is a sample for user with user is: 'McLqvYLBQoCFQikU9dC4cQ' searching for “Restaurants”.
 
-	\begin{figure}[h]
+	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.7]{results_cl.png}
 		\caption{Results for User with id 'McLqvYLBQoCFQikU9dC4cQ'}
 	\end{figure}
 	
 	\subsubsection{Evaluation of the clustering}
-	We used cophenetic correlation to evaluate the quality of the clustering. 
-	\begin{figure}[h]
+	We used cophenetic correlation to evaluate the quality of the clustering. Since, for 8000 users our cophenetic correlstion value is about 0.7, we can assume that the quality of clusters formed is good.  
+	\begin{figure}[H]
 		\centering
 		\includegraphics[scale=0.7]{eval_cl.png}
 		\caption{Cophenetic Correlation Distance for Different User Groupings}
