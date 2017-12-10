@@ -1,0 +1,304 @@
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{float}
+\usepackage{epsfig}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{hyperref}
+\pagestyle{empty}
+\usepackage{color}
+\usepackage[left=3cm,top=2.5cm,right=3cm,bottom=3cm]{geometry} % Document margins
+%\usepackage[all,dvips]{xy}
+
+
+\begin{comment}  
+
+This LaTeX document is a template to be used by Bates mathematics rising seniors to create a thesis proposal. 
+
+As a guide, the document is already filled out to represent a fictitious proposal, and all you need to do is modify the entries below to represent your own proposal.
+
+A PDF version of the fictitious proposal is available on the department's FAQ and Policies pages, at
+http://abacus.bates.edu/acad/depts/math/faq.html
+and
+http://abacus.bates.edu/acad/depts/math/policies.html
+respectively.
+
+Once you have finished your proposal, export it to a PDF file. Give the file a USEFUL name, for example, RiemannThesisProposal.PDF. Email the PDF file to Clementine Brasier, the 
+Academic Administrative Assistant for Hathorn Hall, at cbrasier\@bates.edu
+
+This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 2012 by Meredith Greer
+
+\end{comment}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	\begin{titlepage}
+		\centering
+		\includegraphics[width=0.15\textwidth]{NU_logo.png}\par\vspace{1cm}
+		{\scshape\LARGE Northeastern University \par}
+		\vspace{1cm}
+		{\scshape\Large Data Mining Project Report \par}
+		\vspace{1.5cm}
+		{\huge\bfseries Recommendation Systems for Yelp Dataset\par}
+		\vspace{2cm}
+		{\Large\itshape Aditya Priyadarshi, Abhay Kasturia, Xingxing Liu, Varun Nandu and Gautam Vashisht \par}
+		%{\Large\itshape (priyadarshi.a@husky.neu.edu) \par}
+		\vfill
+		Supervised by\par
+		Dr. Nate \textsc{Derbinsky}
+		
+		\vfill
+		
+		% Bottom of the page
+		{\large \today\par}
+	\end{titlepage}
+	
+	\section{Introduction and Related Work}
+		A recommender system or a recommendation system is a subclass of information filtering systems that seeks to predict the rating or preference that a user would give to an item \cite{rsw}. Recommendations systems have become very relevant today given the presence of e-commerce website like Amazon and Netflix as well as other platforms like Facebook and Youtube. These are utilized in a variety of areas such as movies, music, videos, news, books, research articles, search queries and products in case of Amazon. Two most common methods to build a recommendation system are collaborative filtering and content-based filtering. Collaborative filtering methods use user's past behaviors and behaviors of similar users to find items which a user might like. Content-based methods use the features of the items liked by the user to suggest similar items. There are also hybrid recommendation system which combine both of these techniques.
+	
+	\bigskip
+	
+	
+	\section{Dataset and Analysis} 
+		\subsection{Dataset}
+		 The original dataset described in the Yelp Dataset Challenge 10 \cite{yelp} has 4.7M reviews and 1M tips by 1.1M users for 156K businesses spread across 12 cities. The 	data is given in json format which include business.json, review.json, user.json, checkin.json and tip.json.Each business has name, address, star rating and textual reviews. Each individual review data consists of anonymized IDs for the business, user and review, star rating, review type, review text and votes on how useful, funny or cool the review is.
+		\begin{figure}[H]
+				\centering
+				\includegraphics[scale=0.5]{data_details.png}
+				\caption{Dataset Details}
+		\end{figure}
+		\subsection{Analysis}
+		We did an initial analysis of the dataset. Below sections present our analysis.
+			\subsubsection{User data}
+			There are 1,183,362 total users whose reviews are present in the dataset. We plotted a histogram to understand the distribution of user reviews. Looking at the histogram, we can observe that most of the user have very few reviews and some top users have significant number of reviews. Majority of user have 25 or less reviews which is also shown by a mean of 23..72 and standard deviation of 80.5. The maximum number of reviews given by any user is 11656.
+		
+			\begin{figure}[H]
+					\centering
+					\includegraphics[scale=0.7]{h_user_review.png}
+					\caption{Review count per user}
+			\end{figure}
+		  In addition to number of reviews, we also looked at distribution of star ratings given by a user. Looking at the histogram, we can observe that more users give higher rating which is shown by a median of 3.89 star rating. Mean and standard deviation for the same are 3.71 and 1.10 respectively. In order to group the reviews as positive, average and negative reviews, we have used the following method. We assume that if the rating lies in the range of (mean â€“ standard deviation, mean) which is 2.6 to 3.7, we will categorize it as average. Reviews lower than 2.6 will be considered as a negative review and anything greater than 3.7 will be considered as positive reviews with two extremes being 0 and 1. 
+		 
+		  \begin{figure}[H]
+		  	\centering
+		  	\includegraphics[scale=0.7] {h_user_rating.png}
+		  	\caption{Rating per user}
+		  \end{figure}
+	     We also did some analysis to see the user growth on yelp. User growth has started declining after an increase in users joining from 2005 to 2014 .
+	     
+	      \begin{figure}[H]
+	     	\centering
+	     	\includegraphics[scale=0.5] {user_growth.png}
+	     	\caption{User Growth}
+	     \end{figure}
+     
+     	\subsubsection{Business Data}
+     	There are total 1,56,639 business in the dataset. We grouped business according to city and business category to determine popular cities and categories. Below pie-charts give idea about popular cities and categories.
+     	
+     	\begin{figure}[H]
+     		\centering
+     		\includegraphics[scale=0.7] {top_cities.png}
+     		\caption{Top cities}
+     	\end{figure}
+	     \begin{figure}[H]
+	     	\centering
+	     	\includegraphics[scale=0.7] {top_categroies.png}
+	     	\caption{Top Business Categories}
+	     \end{figure}
+
+      
+
+ 	\subsubsection{Checkin Data}
+ 	Finally, we did analysis on use checkin data to find out popular timing in the top cities shown in our earlier analysis.
+ 
+      \begin{figure}[H]
+ 		\centering
+ 		\includegraphics[scale=0.5] {checkin_times.png}
+ 		\caption{Checkin Times}
+ 	\end{figure}
+ 	
+	\section{Methods}
+		
+		\subsection{Clustering Based Approach}
+		We use clustering to group users who have similar preferences. For clustering based approach, our inputs are user id, type of business and location of the user. The output of our system is top 20 recommendations of businesses for the above type of business. 
+		
+		Thus in order to build this recommendation system, we initially divide our training and testing data based on location. So, we only consider users and business from the given location. Our training data consists of user ratings for businesses from 2004 till 2015. Our testing data consists of user ratings for years 2016 and 2017.
+		
+		We first get the preference of each user by using top 15 categories for the above type of business in the location provided in input. So assuming we have type of business as Restaurants, then top 15 categories could be Indian, American, Bar and Grill, Chinese, so on and so forth. We denote this in form of a vector with elements in it where each element corresponds to each of the top 15 categories. Then for each of those categories, we get all the reviews the user has given for it. We average out the review value and assign the output as a value for that category. If the user has not reviewed a particular category we give the category a value of 3.15 which is the average pf 2.6 and 3.7. 2.6 and 3.7 is the range of our average review as mentioned in the preprocessing part. Thus we create a user preference vector with 15 values.
+		
+		Next, we create a business vector. This is because in order to recommend a business to a user, we need to create a similar preference vector as above for each business. we have the categories for which each business belongs to. Thus, we have a list of categories for each business. If at least 3 of the top categories are part of a business, then that business can be recommended to a user. After filtering out valid business which we can recommend, we create a business vector exactly like the user's preference vector. It is important to know that index of any category in user preference vector should correspond to index of that category in business vector.
+		
+		After this, we use Agglomerative Hierarchical Clustering\cite{agg} to cluster users. This method builds the hierarchy from the individual elements by progressively merging clusters using a distance metric. In our case we use Minkowski distance which is given by :
+		
+		\[
+		\left(\sum_{i=1}^{n} \left | x_i - y_i \right |^p  \right )^\frac{1}{p}
+		\]
+		
+		Thus we can calculate distance between user preference vectors using the formula above where n = 15. After calculating distances between every pair of user preference vector, we merge the two clusters with minimum distance and iteratively continue until we are left with only cluster. However if everything is in one cluster, then clustering does not help us that much. Thus we continue merging until we are left with 15 clusters where 15 denotes the number of categories we are using to create the preference vector. A sample dendogram after performing Clustering for Restaurants in the city of Stuttgart is given below: 
+		
+		 \begin{figure}[H]
+	     	\centering
+	     	\includegraphics[scale=0.3] {clust.png}
+	     	\caption{Dendogram of Clustering for Restaurants in the city of Stuttgart}
+	     \end{figure}
+
+		
+		X-Values of the dendogram represents the indexes of users and the y-axis of dendogram represents the measure of closeness between each user. After clustering, using the index we can determine which cluster our target user belongs to. Then we average out the preference vector for all users in the cluster and get an average preference vector. We then take dot product between the output average preference vector and each business vector to get similarity. Thus if the dot product is 0 that means the two vectors are 90 degrees apart and disimilar. However, as the dot product increases, the two vectors converge and come close to each other. So, the business vector with which we get the highest dot product will be recommended first in our recommendation system.
+				
+		\subsection{Collaborative Filtering}
+		Collaborative Filtering is the method to implement recommendation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
+	 
+	 		\begin{figure}[H]
+					\centering
+					\includegraphics[scale=0.5]{uservsitem.png}
+					\caption{UserVsBusiness - Stars Rating Value}
+			\end{figure}
+	 
+		While doing this, we face two issues 
+		1. As expected, there are a lot of missing values in matrix(for items which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
+		2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}\\
+		
+		To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
+	
+		\subsection{Collaborative Deep Learing} 
+		We are using Collaborative Deep Learning \cite{cdl} (CDL) approach suggested by Hao Wang and team. We looked at various deep learning approaches towards building recommendation systems and we choose this work as it was generally applicable compared to other techniques which either target music or videos recommendations. CDL is a hierarchical Bayesian model. Stacked Denoising autoencoders \cite{sdae} are used for feature learning and cleaning the noise from the input. In below sections, I will be brief about the input parameters and neural network architecture.
+		
+		\subsubsection{Notation and Problem Formulation}
+		As explained in \cite{cdl}, collection of J items (business) is represented by J-by-S matrix $X_c$, where row j is the bag-of-words vector $X_{c,j*}$ for item j based on a vocabulary size S. Assuming I users, an I-by-J rating matrix R. Given part of the ratings in R and the content information Xc, the problem is to predict the other ratings in R. Here, $X_c$ is the clean matrix after using SDAE and $X_o$ is the noise-corrupted matrix.
+		  
+		\subsubsection{Stacked Denoising Autoencoders}
+		SDAE \cite{sdae} is a feedforward neural network for learning representations (encoding) of the input data by learning to predict the clean input itself in the output as shown in figure
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.7]{sdae.png}
+			\caption{Stacked Denoising Autoencoders}
+		\end{figure}
+		
+		\subsubsection{Collaborative Deep Learing Model}
+		Below figures show the model in detail, where W is weight matrix. The part inside the dashed rectangle represents an SDAE. An example SDAE with L=2 is shown. Here, $\lambda_w$, $\lambda_n$, $\lambda_u$, $\lambda_s$ and $\lambda_v$ are hyper-parameters. The middle layer $X_{L/2}$ serves as a bridge between the ratings and content information. 
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.7]{cdl.png}
+			\caption{Graphical model of CDL}
+		\end{figure}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[scale=0.7]{cdl1.png}
+			\caption{NN representation for degenerated CDL}
+		\end{figure}
+	\section{Experiments and Results}
+	\subsection{Clustering Based Approach}
+	\subsubsection{Calculating Similarity and Generating Recommendations}
+	Based on recommendations received from our cluster, we use two measures to analyse our recommendation system namely Hit-Ratio (HR) and Normalised discounted cumulative gain (NDCG). If our user visits any of the recommended business in our testing data, we check what rating has he given to that business. If the rating falls in the positive review range as mentioned in the pre-processing part, then we increment the hit score by 1. If the rating falls in the negative range, we decrement the score by 1. If the rating is in average range then it does not matter as it can be positive or negative. Thus using the above metric we calculate the Hit ratio which is given by: 
+	
+	\[
+	\frac {\sum_{i=1}^{n} Hit Score}{count}
+	\]
+	Now this hit ratio is calculated for one particular user. We average out the hit score for all the users in the test set. Thus we get an average hit score for recommendations for all the users.
+	
+In NDCG, we first calculate gain for each recommendation. The gain refers to the actual rating user gives to each business. Cumulative gain refers to summation of each gain for each recommendation. After that we discount each gain by assigning a weight to it. Thus if the recommendation is at the top of list, the gain for that recommendation will have more weight than if the recommendation was at the bottom of the list. Thus our Discounted cumulative gain is calculated based on the formula given below:
+
+	\[
+	DCG = \sum_{i=1}^{n}\frac { ReviewRating}{i}
+	\]
+	
+	In this case 'i' refers to the index of recommendation. In our case we are recommending top 20 business so 'i' will range from 1 to 20 inclusive. After calculating Discounted Cumulative Gain (DCG) we calculate Ideal Discounted Cumulative Gain (IDCG) which refers to for every recommendation we give a rating of 5. Thus our NDCG becomes:
+	
+	\[
+	NDCG = \frac {DCG}{IDCG}
+	\]
+	
+	After calculating NDCG for one user, we calculate NDCG for every user in the test and average it out.
+	
+	Below is a table showing calculation of Hit Ratio and NDCG for top 15 cities mentioned in pre-processing. 
+	
+		
+		\begin{table}[htb]
+\centering
+\caption{Evaluation Metrics: Hit Ratio and NDCG of top 15 Cities for Restaurants}
+\label{my-label}
+\begin{tabular}{lll}
+City        & Hit Ratio & NDCG \\
+Las Vegas   & 0.65      & 0.77 \\
+Toronto     & 0.65      & 0.89 \\
+Phoenix     & 0.70      & 0.82 \\
+Charlotte   & 0.63      & 0.86 \\
+Edinburgh   & 1.0       & 8.7  \\
+Pittsburgh  & 0.73      & 0.84 \\
+Montréal    & 0.63      & 0.88 \\
+Scottsdale  & 0.71      & 0.88 \\
+Cleveland   & 0.80      & 0.87 \\
+Madison     & 0.74      & 0.84 \\
+Stuttgart   & 0.5       & 0.66 \\
+Mesa        & 0.5       & 0.76 \\
+Tempe       & 0.48      & 0.79 \\
+Henderson   & 0.69      & 0.93 \\
+Mississauga & 0.35      & 0.68 \\
+Average     & 0.65      & 0.83
+\end{tabular}
+\end{table}
+
+
+	
+	 
+	\subsection{User-User Collaborative Filtering}
+
+	For the initial setup, we have worked on 100,000 rows of reviews.json file. We have created a matrix of 78276 users and 4224 businesses.We randomly choose one user to find the set of similar users of count 200. Based on positive average star ratings given by 200 users, 531 set of businesses are recommended to users.
+	
+	
+	
+	\section{Future work}
+	\begin{enumerate}
+		\item Modify original collaborative deep learning implementation\cite{cdli} of paper \cite{cdl} to analyze our dataset.
+		\item All the algorithms are run on a small subset of data. Look into distributive processing framework(Spark), to perform the same on all the data or leverage the Google Cloud Platform.
+		\item Finalize evaluation criteria. The general approach that we plan to take would be:
+		\begin{enumerate}
+			\item Divide training and test data based on the timeline of reviews - to get past activity and future activity.
+			\item Define users in future activity as target users. Use the past activity of the target users to make recommendations.
+			\item Evaluate the recommendation as correct, if the recommendation shows up in the users future activity.
+			\item Get the total accuracy based on the same and evaluate our model!
+		\end{enumerate}
+		\item Handle the problem of cold  start - where a new business or a user is added. The general approach here would be to recommend the most popular business to the new user. Have to search for a way to tackle new businesses.
+		
+	\end{enumerate}
+	
+	\begin{thebibliography}{99}
+		% NOTE: change the "9" above to "99" if you have MORE THAN 10 references.
+		
+	\bibitem{yelp} Yelp Dataset Challenge \url{https://www.yelp.com/dataset_challenge}
+	\bibitem{rsw} Recommendation System Wiki \url{https://en.wikipedia.org/wiki/Recommender_system}
+	\bibitem{cfilter}Collaborative filtering \url{https://en.wikipedia.org/wiki/Collaborative_filtering}
+		\bibitem{cfiltervid}Collaborative filtering Techniques \url{https://www.youtube.com/watch?v=h9gpufJFF-0}
+		\bibitem{mov}Movie Recommenation System \url{https://beckernick.github.io/matrix-factorization-recommender/}
+	\bibitem{ydeep} Paul Covington, Jay Adams, Emre Sargin \textit{Deep Neural Networks for YouTube Recommendations}, ACM 2016.
+	\bibitem{cdl} Hao Wang, Naiyan Wang, Dit-Yan Yeung\textit{Collaborative Deep Learning for Recommender Systems}, ACM 2015
+	\bibitem{vid1} Lecture on CF - Stanford \url{https://www.youtube.com/watch?v=h9gpufJFF-0&t=854s}
+	\bibitem{vid2} Recommendation System Netflix \url{https://www.youtube.com/watch?v=bLhq63ygoU8&t=5598s}
+	\bibitem{sdae} P. Vincent, H. Larochelle, I. Lajoie, Y. Bengio, and
+	P.-A. Manzagol. \textit{Stacked denoising autoencoders:
+		Learning useful representations in a deep network with
+		a local denoising criterion.} JMLR, 11:3371â€“3408, 2010
+	\bibitem{cdli} CDL Implementation \url{https://github.com/hexiangnan/neural_collaborative_filtering}
+	
+	\bibitem{agg}Székely, G. J.; Rizzo, M. L. (2005). "Hierarchical clustering via Joint Between-Within Distances: Extending Ward's Minimum Variance Method". Journal of Classification
+	
+	\end{thebibliography}
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	
+	
+	
+	
+	
+\end{document} 
