@@ -3,7 +3,7 @@ import json
 
 res_businesss = set()
 category = 'Restaurants'
-with open('../data/business.json', 'r', encoding="utf8") as business:
+with open('../Data/business.json', 'r', encoding="utf8") as business:
     for line in business:
         bus = json.loads(line)
         categories = bus['categories']
@@ -13,7 +13,7 @@ with open('../data/business.json', 'r', encoding="utf8") as business:
 print(len(res_businesss))
 valid_users = set()
 min_review_count = 20
-with open('../data/user.json', 'r', encoding="utf8") as users:
+with open('../Data/user.json', 'r', encoding="utf8") as users:
     for line in users:
         user = json.loads(line)
         review_count = user['review_count']
@@ -23,7 +23,7 @@ with open('../data/user.json', 'r', encoding="utf8") as users:
 print(len(valid_users))
 r_count = 0
 sel_reviews = {}
-with open('../data/review.json', 'r', encoding="utf8") as reviews:
+with open('../Data/review.json', 'r', encoding="utf8") as reviews:
     for line in reviews:
         review = json.loads(line)
         user_id = review['user_id']
@@ -59,14 +59,14 @@ for user_id, values in sel_reviews.items():
 
 print(buss_count)
 print(user_count)
-with open('./yelp.train.rating', 'w', encoding="utf8") as train:
+with open('./Data/yelp.train.rating', 'w', encoding="utf8") as train:
     for user_id, values in filter_sel_reviews.items():
         for val in values[:-1]:
             train.write("{}\t{}\t{}\t{}\n".format(user_id, val[0], val[1], val[2]))
     train.close()
 
 print('Train file written')
-with open('./yelp.test.rating', 'w', encoding="utf8") as train:
+with open('./Data/yelp.test.rating', 'w', encoding="utf8") as train:
     for user_id, values in filter_sel_reviews.items():
         train.write("{}\t{}\t{}\t{}\n".format(user_id, values[-1][0], values[-1][1], values[-1][2]))
     train.close()
@@ -88,7 +88,7 @@ for user_id, values in filter_sel_reviews.items():
     negative_sample[user_id] = (values[-1][0], set(business_ids))
 
 print(len(negative_sample))
-with open('./yelp.test.negative', 'w', encoding="utf8") as negative:
+with open('./Data/yelp.test.negative', 'w', encoding="utf8") as negative:
     for key in sorted(negative_sample.keys()):
         values_tup = negative_sample[key]
         values = list(values_tup[1])
