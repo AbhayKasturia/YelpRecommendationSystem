@@ -265,7 +265,7 @@ In NDCG, we first calculate gain for each recommendation. The gain refers to the
 	Below is a table showing calculation of Hit Ratio and NDCG for top 15 cities mentioned in pre-processing. 
 	
 		
-		\begin{table}[htb]
+		\begin{table}[H]
 
 \begin{tabular}{|l|l|l|}
 \hline
@@ -298,7 +298,7 @@ Average     & 0.55      & 0.78 \\
 	
 	 
 	\subsection{Collaborative Filtering using ALS}
-			\begin{table}[htb]				
+			\begin{table}[H]				
 				\begin{tabular}{|l|l|l|}
 	\hline
 	Model        & MSE - Training & MSE - Testing \\
@@ -313,7 +313,7 @@ Average     & 0.55      & 0.78 \\
 \end{table}
 	
 	We first implemented the non regularized model only, which gave us awesome MSE on training dataset but gave worst MSE on test dataset , indicating over fitting. This was fixed using regularization of the ALS model.	
-	\begin{table}[htb]				
+	\begin{table}[H]				
 		\begin{tabular}{|l|l|}
 	\hline
 	Model        & Hit Ratio \\
