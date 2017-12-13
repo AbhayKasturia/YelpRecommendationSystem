@@ -8,8 +8,7 @@
      
    - Put Dataset with the code in the same folder (We only use review.json and business.json)
    Since the dataset is too big we are not uploading it on github
-      ```
-      
+   
    - Just run the ipython notebook
    
 
