@@ -1,7 +1,7 @@
 # YelpRecommendationSystem
-**Steps to Run different method**
+# Steps to Run different method**
 
-- **Neural Collaborative Filtering**
+**1. Neural Collaborative Filtering**
 
    - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
    
