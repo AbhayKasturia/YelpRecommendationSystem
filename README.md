@@ -1,9 +1,8 @@
 # YelpRecommendationSystem
 # Steps to Run different method**
 
-**1. Neural Collaborative Filtering**
-
-   - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
+# Neural Collaborative Filtering
+   - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
    
    - Run neural_collaborative_filtering/data_preprocessor.py (cmd: python data_preprocessor.py) to generate training and test 
      data in ./Data. Data from previous run is already available. 
