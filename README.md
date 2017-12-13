@@ -1,16 +1,23 @@
 # YelpRecommendationSystem
-Steps to Run different method 
+**Steps to Run different method**
 
-3. Neural Collaborative Filtering
+- **Neural Collaborative Filtering**
 
-   a. Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7')  
-   b. Run neural_collaborative_filtering/data_preprocessor.py (cmd: python data_preprocessor.py) to generate training and test 
-      data in ./Data. Data from previous run is already available. 
-   c. Run below command to train the model and save it in neural_collaborative_filtering/Pretrain
+   - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
+   
+   - Run neural_collaborative_filtering/data_preprocessor.py (cmd: python data_preprocessor.py) to generate training and test 
+     data in ./Data. Data from previous run is already available. 
+     
+   - Run below command to train the model and save it in neural_collaborative_filtering/Pretrain.
+      ```
       python MLP.py --dataset yelp --epochs 20 --batch_size 256 --layers [64,32,16,8] --reg_layers [0,0,0,0] --num_neg 4
       --lr 0.001 --learner adam --verbose 1 --out 1
-   d. Final evaluated model is already saved in neural_collaborative_filtering/Pretrain
-   e. Log from last run (takes approximately 4 hours to run on google cloud)
+      ```
+      
+   - Final evaluated model is already saved in neural_collaborative_filtering/Pretrain.
+   
+   - Log from last run (takes approximately 4 hours to run on google cloud).
+      ```
       Using Theano backend.
       MLP arguments: Namespace(batch_size=256, dataset='yelp', epochs=20, layers='[64,32,16,8]', learner='adam', lr=0.001,  num_neg=4,         out=1, path='Data/', reg_layers='[0,0,0,0]', verbose=1)
       Load Data done [10.3 s]. #user=19771, #item=48349, #train=908436, #test=19771
@@ -37,4 +44,5 @@ Steps to Run different method
       Iteration 19 [468.5 s]: HR = 0.8110, NDCG = 0.6185, loss = 0.1244 [9.9 s]
       End. Best Iteration 14:  HR = 0.8197, NDCG = 0.6220.
       The best MLP model is saved to Pretrain/yelp_MLP_[64,32,16,8]_1513114055.h5
+      ```
 
