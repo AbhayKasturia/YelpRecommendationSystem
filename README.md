@@ -1,6 +1,12 @@
 # YelpRecommendationSystem
 # Steps to Run different method**
 
+# Collaborative Filtering - Matrix Factorization
+   - Pre-requisite (Python 3 and above, spark version: 2 and above)
+   - Spark installation guide - https://medium.com/@GalarnykMichael/install-spark-on-windows-pyspark-4498a5d8d66c
+   
+   - After the installation, the file named MatrixFactorization should be able to open the code in Jupyter notebook and should give us the evaluation results. 
+
 # Neural Collaborative Filtering
    - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
    
