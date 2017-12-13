@@ -104,7 +104,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	     
 	      \begin{figure}[H]
 	     	\centering
-	     	\includegraphics[scale=0.5] {user_growth.png}
+	     	\includegraphics[scale=0.4] {user_growth.png}
 	     	\caption{User Growth}
 	     \end{figure}
      
@@ -135,7 +135,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		
 		Thus in order to build this recommendation system, we initially divide our training and testing data based on location. So, we only consider users and business from the given location. Our training data consists of user ratings for businesses from 2004 till 2015. Our testing data consists of user ratings for years 2016 and 2017.
 		
-		We first get the preference of each user by using top 15 categories for the above type of business in the location provided in input. So assuming we have type of business as Restaurants, then top 15 categories could be Indian, American, Bar and Grill, Chinese, so on and so forth. We denote this in form of a vector with elements in it where each element corresponds to each of the top 15 categories. Then for each of those categories, we get all the reviews the user has given for it. We average out the review value and assign the output as a value for that category. If the user has not reviewed a particular category we give the category a value of 3.15 which is the average pf 2.6 and 3.7. 2.6 and 3.7 is the range of our average review as mentioned in the preprocessing part. Thus we create a user preference vector with 15 values.
+		We first get the preference of each user by using top 15 categories for the above type of business in the location provided in input. So assuming we have type of business as Restaurants, then top 15 categories could be Indian, American, Bar and Grill, Chinese, so on and so forth. We denote this in form of a vector with elements in it where each element corresponds to each of the top 15 categories. Then for each of those categories, we get all the reviews the user has given for it. We average out the review value and assign the output as a value for that category. If the user has not reviewed a particular category we give the category a value of 3.15 which is the average pf 2.6 and 3.7. 2.6 and 3.7 is the range of our average review as mentioned in the pre-processing part. Thus we create a user preference vector with 15 values.
 		
 		Next, we create a business vector. This is because in order to recommend a business to a user, we need to create a similar preference vector as above for each business. we have the categories for which each business belongs to. Thus, we have a list of categories for each business. If at least 3 of the top categories are part of a business, then that business can be recommended to a user. After filtering out valid business which we can recommend, we create a business vector exactly like the user's preference vector. It is important to know that index of any category in user preference vector should correspond to index of that category in business vector.
 		
@@ -154,7 +154,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 	     \end{figure}
 
 		
-		X-Values of the dendogram represents the indexes of users and the y-axis of dendogram represents the measure of closeness between each user. After clustering, using the index we can determine which cluster our target user belongs to. Then we average out the preference vector for all users in the cluster and get an average preference vector. We then take dot product between the output average preference vector and each business vector to get similarity. Thus if the dot product is 0 that means the two vectors are 90 degrees apart and disimilar. However, as the dot product increases, the two vectors converge and come close to each other. So, the business vector with which we get the highest dot product will be recommended first in our recommendation system.
+		X-Values of the dendogram represents the indexes of users and the y-axis of dendogram represents the measure of closeness between each user. After clustering, using the index we can determine which cluster our target user belongs to. Then we average out the preference vector for all users in the cluster and get an average preference vector. We then take dot product between the output average preference vector and each business vector to get similarity. Thus if the dot product is 0 that means the two vectors are 90 degrees apart and dissimilar. However, as the dot product increases, the two vectors converge and come close to each other. So, the business vector with which we get the highest dot product will be recommended first in our recommendation system.
 				
 		\subsection{Collaborative Filtering}
 		Collaborative Filtering is the method to implement recommendation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
@@ -171,8 +171,8 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		
 		To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
 	
-		\subsection{Deep Learing Method} 
-		We have using Neural Collaborative Filtering \cite{ncf} (NCF) approach suggested by Xiangnan He and team. We looked at various deep learning approaches towards building recommendation systems and choose this work as it was generally applicable compared to other techniques which either target music or video recommendations specifically. NCF uses multi-layers percpetron to learn use-item interaction function. It is generic and tries to generalize matric factorization under its framework. This work focuses on the implicit feedback which indirectly reflects users behaviours.
+		\subsection{Deep Learning Method} 
+		We have using Neural Collaborative Filtering \cite{ncf} (NCF) approach suggested by Xiangnan He and team. We looked at various deep learning approaches towards building recommendation systems and choose this work as it was generally applicable compared to other techniques which either target music or video recommendations specifically. NCF uses multi-layers perceptron to learn use-item interaction function. It is generic and tries to generalize matrix factorization under its framework. This work focuses on the implicit feedback which indirectly reflects users behaviors.
 		
 		\subsubsection{Notation and Problem Formulation} 
 		Let M and N denote the number of users and items, respectively. User-item interaction matrix $Y \in \mathbb{R}^{M \times N}$ from user's implicit feedback is defined as,
@@ -187,20 +187,24 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		entries in Y, which are used for ranking the items.
 		
 		\subsubsection{Neural Collaborative Filtering}
-		A multi-layer reprentation is used to model user-item interaction $y_{ui}$ as shown in below figure.
+		A multi-layer representation is used to model user-item interaction $y_{ui}$ as shown in below figure.
 		\begin{figure}[H]
 			\label{fig:ncf}
 			\centering
 			\includegraphics[scale=1.2]{ncf.png}
 			\caption{Neural Collaborative Filtering Model}
 		\end{figure}
-		The bottom input layer consists of two feature vectors $v_{u}^{U}$ and $v_{i}^{I}$ that describe user u and item i, respectively. As it is purely colloborative model, only user and item ids are taken as input in form of one-hot vectors. Above the input layer is the embedding layer; it is a fully connected layer that projects the sparse representation to a dense vector. The user embedding and item embedding are then fed into a multi-layer perceptron architecture to map the latent vectors to prediction scores.  The final output layer is the predicted score $\hat{y_{ui}}$, and training is performed by minimizing the pointwise loss between $\hat{y_{ui}}$
+		The bottom input layer consists of two feature vectors $v_{u}^{U}$ and $v_{i}^{I}$ that describe user u and item i, respectively. As it is purely collaborative model, only user and item ids are taken as input in form of one-hot vectors. Above the input layer is the embedding layer; it is a fully connected layer that projects the sparse representation to a dense vector. The user embedding and item embedding are then fed into a multi-layer perceptron architecture to map the latent vectors to prediction scores.  The final output layer is the predicted score $\hat{y_{ui}}$, and training is performed by minimizing the point-wise loss between $\hat{y_{ui}}$
 		and its target value $y_{ui}$
 		
 	\section{Experiments and Results}
+	\subsection{Data Pre-processing}
+	Initially, we filtered business by only considering restaurants category to reduce noise in our model. In addition, we removed users who had less than 20 reviews for restaurant type business so that we have enough information about users and to also reduce sparsity of data. We also created 99 negative samples for each selected user for evaluation of deep learning approach. We kept the latest review of the selected user as the test data. Overall, after pre-processing, we had 19,771 users, 48,349 businesses , 90,8436 reviews for training and 19,771 reviews for testing.
+	
+	
 	\subsection{Clustering Based Approach}
 	\subsubsection{Calculating Similarity and Generating Recommendations}
-	Based on recommendations received from our cluster, we use two measures to analyse our recommendation system namely Hit-Ratio (HR) and Normalised discounted cumulative gain (NDCG). If our user visits any of the recommended business in our testing data, we check what rating has he given to that business. If the rating falls in the positive review range as mentioned in the pre-processing part, then we increment the hit score by 1. If the rating falls in the negative range, we decrement the score by 1. If the rating is in average range then it does not matter as it can be positive or negative. Thus using the above metric we calculate the Hit ratio which is given by: 
+	Based on recommendations received from our cluster, we use two measures to analyze our recommendation system namely Hit-Ratio (HR) and Normalized discounted cumulative gain (NDCG). If our user visits any of the recommended business in our testing data, we check what rating has he given to that business. If the rating falls in the positive review range as mentioned in the pre-processing part, then we increment the hit score by 1. If the rating falls in the negative range, we decrement the score by 1. If the rating is in average range then it does not matter as it can be positive or negative. Thus using the above metric we calculate the Hit ratio which is given by: 
 	
 	\[
 	\frac {\sum_{i=1}^{n} Hit Score}{count}
@@ -210,7 +214,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 In NDCG, we first calculate gain for each recommendation. The gain refers to the actual rating user gives to each business. Cumulative gain refers to summation of each gain for each recommendation. After that we discount each gain by assigning a weight to it. Thus if the recommendation is at the top of list, the gain for that recommendation will have more weight than if the recommendation was at the bottom of the list. Thus our Discounted cumulative gain is calculated based on the formula given below:
 
 	\[
-	DCG = \sum_{i=1}^{n}\frac { ReviewRating}{i}
+	DCG = \sum_{i=1}^{n}\frac { Review Rating}{i}
 	\]
 	
 	In this case 'i' refers to the index of recommendation. In our case we are recommending top 20 business so 'i' will range from 1 to 20 inclusive. After calculating Discounted Cumulative Gain (DCG) we calculate Ideal Discounted Cumulative Gain (IDCG) which refers to for every recommendation we give a rating of 5. Thus our NDCG becomes:
@@ -225,11 +229,11 @@ In NDCG, we first calculate gain for each recommendation. The gain refers to the
 	
 		
 		\begin{table}[htb]
-\centering
-\caption{Evaluation Metrics: Hit Ratio and NDCG of top 15 Cities for Restaurants}
-\label{my-label}
-\begin{tabular}{lll}
+
+\begin{tabular}{|l|l|l|}
+\hline
 City        & Hit Ratio & NDCG \\
+\hline
 Las Vegas   & 0.65      & 0.77 \\
 Toronto     & 0.65      & 0.89 \\
 Phoenix     & 0.70      & 0.82 \\
@@ -245,8 +249,12 @@ Mesa        & 0.5       & 0.76 \\
 Tempe       & 0.48      & 0.79 \\
 Henderson   & 0.69      & 0.93 \\
 Mississauga & 0.35      & 0.68 \\
-Average     & 0.65      & 0.83
+Average     & 0.65      & 0.83 \\
+\hline
 \end{tabular}
+\centering
+\caption{Evaluation Metrics: Hit Ratio and NDCG of top 15 Cities for Restaurants}
+\label{res-clustering}
 \end{table}
 
 
@@ -256,22 +264,24 @@ Average     & 0.65      & 0.83
 
 	For the initial setup, we have worked on 100,000 rows of reviews.json file. We have created a matrix of 78276 users and 4224 businesses.We randomly choose one user to find the set of similar users of count 200. Based on positive average star ratings given by 200 users, 531 set of businesses are recommended to users.
 	
+	\subsection{Deep Learning Method}
+	We used the model implementation \cite{ncfi} provided by original authors to build the model on our dataset. For each training example, first we form one-hot vector for both user and business. Then, we feed these to the embedding layer and concatenate these two to form a single vector. Then, we used four hidden fully connected layers with respectively 64,32,16 and 8 factors and relu activation functions. Finally, we had a fully connected output layer with sigmoid activation function. 
 	
+	In order to evaluate the trained model, as explained above Hit ratio and NDCG were used. We used 20 epochs to train the model in batch sizes of 256. Results for best model is shown in below table.
 	
-	\section{Future work}
-	\begin{enumerate}
-		\item Modify original collaborative deep learning implementation\cite{cdli} of paper \cite{cdl} to analyze our dataset.
-		\item All the algorithms are run on a small subset of data. Look into distributive processing framework(Spark), to perform the same on all the data or leverage the Google Cloud Platform.
-		\item Finalize evaluation criteria. The general approach that we plan to take would be:
-		\begin{enumerate}
-			\item Divide training and test data based on the timeline of reviews - to get past activity and future activity.
-			\item Define users in future activity as target users. Use the past activity of the target users to make recommendations.
-			\item Evaluate the recommendation as correct, if the recommendation shows up in the users future activity.
-			\item Get the total accuracy based on the same and evaluate our model!
-		\end{enumerate}
-		\item Handle the problem of cold  start - where a new business or a user is added. The general approach here would be to recommend the most popular business to the new user. Have to search for a way to tackle new businesses.
-		
-	\end{enumerate}
+	\begin{table}[H]
+		\begin{tabular}{|c|c|}
+		\hline
+		Hit Ratio & NDCG \\
+		\hline
+		0.8197 & 0.6220 \\
+		\hline
+		\end{tabular}
+	\centering
+	\caption{Deep learning evaluation: Hit Ratio and NDCG for Restaurants}
+	\label{res-dll}
+	\end{table}
+	
 	
 	\begin{thebibliography}{99}
 		% NOTE: change the "9" above to "99" if you have MORE THAN 10 references.
@@ -285,7 +295,7 @@ Average     & 0.65      & 0.83
 	\bibitem{ncf} Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu and Tat-Seng Chua\textit{Neural Collaborative Filtering}, ACM 2017
 	\bibitem{vid1} Lecture on CF - Stanford \url{https://www.youtube.com/watch?v=h9gpufJFF-0&t=854s}
 	\bibitem{vid2} Recommendation System Netflix \url{https://www.youtube.com/watch?v=bLhq63ygoU8&t=5598s}
-	\bibitem{cdli} CDL Implementation \url{https://github.com/hexiangnan/neural_collaborative_filtering}
+	\bibitem{ncfi} NCF Implementation \url{https://github.com/hexiangnan/neural_collaborative_filtering}
 	
 	\bibitem{agg}Székely, G. J.; Rizzo, M. L. (2005). "Hierarchical clustering via Joint Between-Within Distances: Extending Ward's Minimum Variance Method". Journal of Classification
 	
