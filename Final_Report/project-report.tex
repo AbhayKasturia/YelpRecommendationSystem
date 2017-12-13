@@ -159,21 +159,29 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		Collaborative filtering(CF) is a method of making automatic predictions (filtering) about the interests of a user by collecting preferences or taste information from many users (collaborating). For the purpose of this project we evaluate two strategies for CF:
 		\begin{itemize}
 			\item{user - user based recommendations}
+		\end{itemize}
+
+		We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses.
+		
+		While doing this, we face two issues and resolved them as mentioned 1. As expected, there are lot of missing values in matrix(for business which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
+2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}
+
+		For predicting the rating for the new business by user, we modified the functions given in HW3 of coursework. We used the similarity matrix to found top 10 similar users who have given rating to that items. Then we computed the weighted average of ratings based on similarity between the target user and other users.
+		
+		$$Prediction_t = \frac{\sum_{u=1}^{10} mat[u][i] * sim_{ut}} {\sum_{u=1}^{10}}$$ 
+		
+	 $$Prediction Rating for User t $$
+	
+		
+		Finally for recommending the Top 10 business to user, we computes the prediction rating of all the business which user has not rated, based on similar users. Then we recommend the top 10 business with maximum prediction of rating value. \\
+		\begin{itemize}
 			\item{Matrix Factorization}
 		\end{itemize} 
 		
-		
-		We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
 	 
-	 		\begin{figure}[H]
-					\centering
-					\includegraphics[scale=0.5]{uservsitem.png}
-					\caption{UserVsBusiness - Stars Rating Value}
-			\end{figure}
+	
 	 
-		While doing this, we face two issues 
-		1. As expected, there are a lot of missing values in matrix(for items which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
-		2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}\\
+
 		
 		To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
 	
