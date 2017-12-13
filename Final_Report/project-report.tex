@@ -159,31 +159,54 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		Collaborative filtering(CF) is a method of making automatic predictions (filtering) about the interests of a user by collecting preferences or taste information from many users (collaborating). For the purpose of this project we evaluate two strategies for CF:
 		\begin{itemize}
 			\item{user - user based recommendations}
+			\item{Matrix Factorization using ALS}
 		\end{itemize}
+		\subsubsection{User-User}
 
 		We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses.
 		
-		While doing this, we face two issues and resolved them as mentioned 1. As expected, there are lot of missing values in matrix(for business which user has not given rating). We treat missing values as the average computed after following the second step - which will always be zero.
-2. There is an issue of handling the rating given by soft users and hard users i.e some users may rate the business they like with a 3 star ratings and there are some users who may rate the business they don't like with a 3 star ratings. To normalize these ratings for each user we use the centered cosine similarity. We normalize the ratings by subtracting the row mean for each user.\cite{vid1}
+		While implementing the above, we face two issues :\\
+		1)Soft users vs Hard users:\\
+			We define soft users as users whose rating range is not high and hard users are users with high rating range eg: a soft user would define a bad rating as 4 and a good rating as 5, whereas a hard user would define a bad rating as 1 and a good as 4. To deal with this we normalize the rating using the formula below:\\			
+			$$rating(u_i,k)=rating(u_i,k) - mean(rating(u_i))$$
+			For user i and a particular business k\cite{vid1}\\
+		2) Sparsity:\\
+			There are lot of missing values in matrix(for business which user has not given rating). We treat these missing values as the average computed after following the first step - which will always be zero.\\
 
-		For predicting the rating for the new business by user, we modified the functions given in HW3 of coursework. We used the similarity matrix to found top 10 similar users who have given rating to that items. Then we computed the weighted average of ratings based on similarity between the target user and other users.
+		Prediction:\\
+		For predicting the rating for a new business for a particular user,  we build the similarity matrix to find top 10 similar users who have rated that particular business.\cite{HW3} Then we computed the weighted average of ratings based on similarity between the target user and other users.Prediction Rating for User t for a business i would be given by :
 		
-		$$Prediction_t = \frac{\sum_{u=1}^{10} mat[u][i] * sim_{ut}} {\sum_{u=1}^{10}}$$ 
+		$$predr_(u_t,i) = \frac{\sum_{j=1, r(u_j,k) \neq 0}^{10} mat[j][i] * sim_{u_t,u_j}} {\sum_{j=1, r(u_j, k)}^{10} sim_{u_t, u_j}}$$ 
 		
-	 $$Prediction Rating for User t $$
-	
+			Finally for recommending the Top 10 business to user, we computes the prediction rating of all the business which user has not rated, based on similar users. Then we recommend the top 10 business with highest prediction of rating value. \\
+		\subsubsection{Matrix Factorization - ALS}
 		
-		Finally for recommending the Top 10 business to user, we computes the prediction rating of all the business which user has not rated, based on similar users. Then we recommend the top 10 business with maximum prediction of rating value. \\
-		\begin{itemize}
-			\item{Matrix Factorization}
-		\end{itemize} 
+		Predictions for rating are calculated using :\\
+		$$predr_{ui}=q_i^T.p_u$$\\
+		where $q_i$ is a vector for business, and $p_u$ is a vector for each user.\\
+		The resulting dot product, $q^T_i.p_u$, captures the interaction between user u and business i; the user's overall interest in the business's characteristics.
+		Optimization problem:\\
+		$$min_{q,p} \sum_{(u,i)}(r_{ui} - q^T_ip_u)^2 + \lambda(\parallel q_i \parallel ^2+\parallel p_u\parallel^2)$$\\
+		We use ALS to find p and q that minimizes the above equation.
+		The term with lambda is supposed to be a regularization term.\cite{alspaper}
 		
-	 
-	
-	 
-
+		Because both $q_i$ and $p_u$ are unknowns, the above equation is not convex. But, if we fix one of the unknowns, the optimization problem becomes quadratic and can be solved optimally. 
 		
-		To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
+		Thus, ALS techniques alternates between fixing the $q_i$'s and fixing the $p_u$'s. When all $p_u$'s are fixed, the system recomputes the $q_i$'s by solving the least-squares problem, and vice versa.\\ This also ensures that at each step we decreases the value for the equation mentioned above, until we reach convergence or the max iterations is reached.
+		
+		Parameters picked for ALS:\\
+		The parameters used are:
+		$\lambda = 0.15$\\
+		$iter = 20$\\
+		$rank = 100$\\
+		
+		where,\\ 
+		rank is the number of features to use (also referred to as the number of latent factors).\\
+		iter is the number of iterations of ALS to run. ALS typically converges to a reasonable solution in 20 iterations or less.\\
+		lambda specifies the regularization parameter in ALS.\cite{spark}\\
+		Since, the ALS algorithm gives rise to potentially massive parallelization, we use spark to utilize to most of the algorithm.\\
+		
+		Most of the values for the parameter chosen is for compute efficiency. Given a system with larger resources we can get better MSE by increasing the rank value.\cite{sparkexamples}
 	
 		\subsection{Deep Learning Method} 
 		We have using Neural Collaborative Filtering \cite{ncf} (NCF) approach suggested by Xiangnan He and team. We looked at various deep learning approaches towards building recommendation systems and choose this work as it was generally applicable compared to other techniques which either target music or video recommendations specifically. NCF uses multi-layers perceptron to learn use-item interaction function. It is generic and tries to generalize matrix factorization under its framework. This work focuses on the implicit feedback which indirectly reflects users behaviors.
@@ -274,9 +297,34 @@ Average     & 0.55      & 0.78 \\
 
 	
 	 
-	\subsection{User-User Collaborative Filtering}
-
-	For the initial setup, we have worked on 100,000 rows of reviews.json file. We have created a matrix of 78276 users and 4224 businesses.We randomly choose one user to find the set of similar users of count 200. Based on positive average star ratings given by 200 users, 531 set of businesses are recommended to users.
+	\subsection{Collaborative Filtering using ALS}
+			\begin{table}[htb]				
+				\begin{tabular}{|l|l|l|}
+	\hline
+	Model        & MSE - Training & MSE - Testing \\
+	\hline
+	Non Regularized   & 0.02      & 2.24 \\
+	\hline
+	Regularized   & 0.04      & 1.4 \\
+	\hline
+\end{tabular}
+\centering
+\caption{Evaluation Metrics: MSE}
+\end{table}
+	
+	We first implemented the non regularized model only, which gave us awesome MSE on training dataset but gave worst MSE on test dataset , indicating over fitting. This was fixed using regularization of the ALS model.	
+	\begin{table}[htb]				
+		\begin{tabular}{|l|l|}
+	\hline
+	Model        & Hit Ratio \\
+	\hline
+	Best CF - ALS   & 0.77  \\
+	\hline
+\end{tabular}
+\centering
+\caption{Evaluation Metrics: Hit Ratio}
+\end{table}
+	
 	
 	\subsection{Deep Learning Method}
 	We used the model implementation \cite{ncfi} provided by original authors to build the model on our dataset. For each training example, first we form one-hot vector for both user and business. Then, we feed these to the embedding layer and concatenate these two to form a single vector. Then, we used four hidden fully connected layers with respectively 64,32,16 and 8 factors and relu activation functions. Finally, we had a fully connected output layer with sigmoid activation function. 
@@ -306,12 +354,16 @@ Average     & 0.55      & 0.78 \\
 		\bibitem{cfiltervid}Collaborative filtering Techniques \url{https://www.youtube.com/watch?v=h9gpufJFF-0}
 		\bibitem{mov}Movie Recommenation System \url{https://beckernick.github.io/matrix-factorization-recommender/}
 	\bibitem{ydeep} Paul Covington, Jay Adams, Emre Sargin \textit{Deep Neural Networks for YouTube Recommendations}, ACM 2016.
+	\bibitem{HW3} CS6220 home work assignment 3, Fall 2017 
 	\bibitem{ncf} Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu and Tat-Seng Chua\textit{Neural Collaborative Filtering}, ACM 2017
 	\bibitem{vid1} Lecture on CF - Stanford \url{https://www.youtube.com/watch?v=h9gpufJFF-0&t=854s}
 	\bibitem{vid2} Recommendation System Netflix \url{https://www.youtube.com/watch?v=bLhq63ygoU8&t=5598s}
 	\bibitem{ncfi} NCF Implementation \url{https://github.com/hexiangnan/neural_collaborative_filtering}
 	
 	\bibitem{agg}Székely, G. J.; Rizzo, M. L. (2005). "Hierarchical clustering via Joint Between-Within Distances: Extending Ward's Minimum Variance Method". Journal of Classification
+	\bibitem{spark}Spark Library for URL \url{https://spark.apache.org/docs/2.2.0/mllib-collaborative-filtering.html}
+	\bibitem{alspaper}Paper explaining ALS\url{http://ieeexplore.ieee.org/document/5197422/?part=1}
+	\bibitem{sparkexamples} Spark MLLib and ML library examples.
 	
 	\end{thebibliography}
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
