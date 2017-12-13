@@ -17,6 +17,13 @@
    - Spark installation guide - https://medium.com/@GalarnykMichael/install-spark-on-windows-pyspark-4498a5d8d66c
    
    - After the installation, the file named MatrixFactorization should be able to open the code in Jupyter notebook and should give us the evaluation results. 
+   
+# Collaborative Filtering - User-User Similarity
+- Pre-requisite (Python 3 and above, Jupyter Notebook)
+- Need to give the link to dataset for yelp.train.rating and yelp.test.rating
+- Open the file user-user.ipynb in Jupyter Notebook and run all the cells.
+   
+  
 
 # Neural Collaborative Filtering
    - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
