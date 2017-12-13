@@ -51,8 +51,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		\vspace{1.5cm}
 		{\huge\bfseries Recommendation Systems for Yelp Dataset\par}
 		\vspace{2cm}
-		{\Large\itshape Aditya Priyadarshi, Abhay Kasturia, Xingxing Liu, Varun Nandu and Gautam Vashisht \par}
-		%{\Large\itshape (priyadarshi.a@husky.neu.edu) \par}
+		{\Large\itshape Abhay Kasturia\\ Aditya Priyadarshi\\ Gautam Vashisht\\ Varun Nandu\\ Xingxing Liu\\ \par}
 		\vfill
 		Supervised by\par
 		Dr. Nate \textsc{Derbinsky}
@@ -157,7 +156,14 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		X-Values of the dendogram represents the indexes of users and the y-axis of dendogram represents the measure of closeness between each user. After clustering, using the index we can determine which cluster our target user belongs to. Then we average out the preference vector for all users in the cluster and get an average preference vector. We then take dot product between the output average preference vector and each business vector to get similarity. Thus if the dot product is 0 that means the two vectors are 90 degrees apart and dissimilar. However, as the dot product increases, the two vectors converge and come close to each other. So, the business vector with which we get the highest dot product will be recommended first in our recommendation system.
 				
 		\subsection{Collaborative Filtering}
-		Collaborative Filtering is the method to implement recommendation system. It is the way to recommend item to user 'u1' by collaborating the choice of item of other users similar to user 'u1'. We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
+		Collaborative filtering(CF) is a method of making automatic predictions (filtering) about the interests of a user by collecting preferences or taste information from many users (collaborating). For the purpose of this project we evaluate two strategies for CF:
+		\begin{itemize}
+			\item{user - user based recommendations}
+			\item{Matrix Factorization}
+		\end{itemize} 
+		
+		
+		We create a n X m matrix, where n is the number of users and m is the number of business, with each cell representing the rating given by a user to that particular business. Each row in matrix represent the vector of star rating given by user for all the businesses. \\
 	 
 	 		\begin{figure}[H]
 					\centering
