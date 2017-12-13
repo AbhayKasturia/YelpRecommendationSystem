@@ -1,6 +1,18 @@
 # YelpRecommendationSystem
 # Steps to Run different method**
 
+# Clustering
+   - Pre-requisite (Python 3.6, scipy, statistics, numpy, sklearn, seaborn, time, json, matplotlib). 
+   
+   - Download the dataset from Yelp Dataset Challenge https://www.yelp.com/dataset/challenge 
+     
+   - Put Dataset with the code in the same folder (We only use review.json and business.json)
+   Since the dataset is too big we are not uploading it on github
+      ```
+      
+   - Just run the ipython notebook
+   
+
 # Collaborative Filtering - Matrix Factorization
    - Pre-requisite (Python 3 and above, spark version: 2 and above)
    - Spark installation guide - https://medium.com/@GalarnykMichael/install-spark-on-windows-pyspark-4498a5d8d66c
