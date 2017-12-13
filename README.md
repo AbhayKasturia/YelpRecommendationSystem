@@ -1,6 +1,23 @@
 # YelpRecommendationSystem
 # Steps to Run different method**
 
+# Clustering
+   - Pre-requisite (Python 3.6, scipy, statistics, numpy, sklearn, seaborn, time, json, matplotlib). 
+   
+   - Download the dataset from Yelp Dataset Challenge https://www.yelp.com/dataset/challenge 
+     
+   - Put Dataset with the code in the same folder (We only use review.json and business.json)
+   Since the dataset is too big we are not uploading it on github
+   
+   - Just run the ipython notebook
+   
+
+# Collaborative Filtering - Matrix Factorization
+   - Pre-requisite (Python 3 and above, spark version: 2 and above)
+   - Spark installation guide - https://medium.com/@GalarnykMichael/install-spark-on-windows-pyspark-4498a5d8d66c
+   
+   - After the installation, the file named MatrixFactorization should be able to open the code in Jupyter notebook and should give us the evaluation results. 
+
 # Neural Collaborative Filtering
    - Pre-requisite (Python 2.7, h5py, theano version: '0.8.0', keras version: '1.0.7'). 
    
