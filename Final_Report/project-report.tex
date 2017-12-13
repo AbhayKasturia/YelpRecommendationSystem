@@ -81,19 +81,25 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		We did an initial analysis of the dataset. Below sections present our analysis.
 			\subsubsection{User data}
 			There are 1,183,362 total users whose reviews are present in the dataset. We plotted a histogram to understand the distribution of user reviews. Looking at the histogram, we can observe that most of the user have very few reviews and some top users have significant number of reviews. Majority of user have 25 or less reviews which is also shown by a mean of 23..72 and standard deviation of 80.5. The maximum number of reviews given by any user is 11656.
-		
-			\begin{figure}[H]
+			\begin{figure} [H]
+				\centering
+				\begin{minipage}{.5\textwidth}
 					\centering
-					\includegraphics[scale=0.7]{h_user_review.png}
-					\caption{Review count per user}
+				\includegraphics[scale=0.5]{h_user_review.png}
+				\caption{Review count per user}
+					\label{fig:user_review}
+				\end{minipage}%
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[scale=0.5] {h_user_rating.png}
+					\caption{Rating per user}
+					\label{fig:user_rating}
+				\end{minipage}
 			\end{figure}
+			
+			
 		  In addition to number of reviews, we also looked at distribution of star ratings given by a user. Looking at the histogram, we can observe that more users give higher rating which is shown by a median of 3.89 star rating. Mean and standard deviation for the same are 3.71 and 1.10 respectively. In order to group the reviews as positive, average and negative reviews, we have used the following method. We assume that if the rating lies in the range of (mean – standard deviation, mean) which is 2.6 to 3.7, we will categorize it as average. Reviews lower than 2.6 will be considered as a negative review and anything greater than 3.7 will be considered as positive reviews with two extremes being 0 and 1. 
 		 
-		  \begin{figure}[H]
-		  	\centering
-		  	\includegraphics[scale=0.7] {h_user_rating.png}
-		  	\caption{Rating per user}
-		  \end{figure}
 	     We also did some analysis to see the user growth on yelp. User growth has started declining after an increase in users joining from 2005 to 2014 .
 	     
 	      \begin{figure}[H]
@@ -104,28 +110,23 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
      
      	\subsubsection{Business Data}
      	There are total 1,56,639 business in the dataset. We grouped business according to city and business category to determine popular cities and categories. Below pie-charts give idea about popular cities and categories.
-     	
-     	\begin{figure}[H]
-     		\centering
-     		\includegraphics[scale=0.7] {top_cities.png}
-     		\caption{Top cities}
-     	\end{figure}
-	     \begin{figure}[H]
-	     	\centering
-	     	\includegraphics[scale=0.7] {top_categroies.png}
-	     	\caption{Top Business Categories}
-	     \end{figure}
 
-      
-
- 	\subsubsection{Checkin Data}
- 	Finally, we did analysis on use checkin data to find out popular timing in the top cities shown in our earlier analysis.
- 
-      \begin{figure}[H]
- 		\centering
- 		\includegraphics[scale=0.5] {checkin_times.png}
- 		\caption{Checkin Times}
- 	\end{figure}
+      	\begin{figure}[H]
+      		\centering
+      		\begin{minipage}{.5\textwidth}
+      			\centering
+      			\includegraphics[scale=0.6] {top_cities.png}
+      			\caption{Top cities}
+      			\label{fig:topcity}
+      		\end{minipage}%
+      		\begin{minipage}{.5\textwidth}
+      			\centering
+      		\includegraphics[scale=0.6] {top_categroies.png}
+      		\caption{Top Business Categories}
+      			\label{fig:topbus}
+      		\end{minipage}
+      	\end{figure}
+      	
  	
 	\section{Methods}
 		
