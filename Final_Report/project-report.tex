@@ -170,33 +170,32 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		
 		To recommend new businesses to a target user 'target', we find the cosine similarity between all other users and 'target'. Top 'k' businesses rated with positive average star rating, by users of having cosine similarity greater than 1, will be recommended to user 'target'.\cite{vid2}
 	
-		\subsection{Collaborative Deep Learing} 
-		We are using Collaborative Deep Learning \cite{cdl} (CDL) approach suggested by Hao Wang and team. We looked at various deep learning approaches towards building recommendation systems and we choose this work as it was generally applicable compared to other techniques which either target music or videos recommendations. CDL is a hierarchical Bayesian model. Stacked Denoising autoencoders \cite{sdae} are used for feature learning and cleaning the noise from the input. In below sections, I will be brief about the input parameters and neural network architecture.
+		\subsection{Deep Learing Method} 
+		We have using Neural Collaborative Filtering \cite{ncf} (NCF) approach suggested by Xiangnan He and team. We looked at various deep learning approaches towards building recommendation systems and choose this work as it was generally applicable compared to other techniques which either target music or video recommendations specifically. NCF uses multi-layers percpetron to learn use-item interaction function. It is generic and tries to generalize matric factorization under its framework. This work focuses on the implicit feedback which indirectly reflects users behaviours.
 		
-		\subsubsection{Notation and Problem Formulation}
-		As explained in \cite{cdl}, collection of J items (business) is represented by J-by-S matrix $X_c$, where row j is the bag-of-words vector $X_{c,j*}$ for item j based on a vocabulary size S. Assuming I users, an I-by-J rating matrix R. Given part of the ratings in R and the content information Xc, the problem is to predict the other ratings in R. Here, $X_c$ is the clean matrix after using SDAE and $X_o$ is the noise-corrupted matrix.
-		  
-		\subsubsection{Stacked Denoising Autoencoders}
-		SDAE \cite{sdae} is a feedforward neural network for learning representations (encoding) of the input data by learning to predict the clean input itself in the output as shown in figure
-		\begin{figure}[H]
-			\centering
-			\includegraphics[scale=0.7]{sdae.png}
-			\caption{Stacked Denoising Autoencoders}
-		\end{figure}
+		\subsubsection{Notation and Problem Formulation} 
+		Let M and N denote the number of users and items, respectively. User-item interaction matrix $Y \in \mathbb{R}^{M \times N}$ from user's implicit feedback is defined as,
+		\[
+			y_{ui} = \begin{Bmatrix}
+			1, & \text{if interaction (user u, item i) is observed} \\
+			0, & otherwise
+			\end{Bmatrix}
+		\] 
+		The recommendation problem with implicit feedback is
+		formulated as the problem of estimating the scores of unobserved
+		entries in Y, which are used for ranking the items.
 		
-		\subsubsection{Collaborative Deep Learing Model}
-		Below figures show the model in detail, where W is weight matrix. The part inside the dashed rectangle represents an SDAE. An example SDAE with L=2 is shown. Here, $\lambda_w$, $\lambda_n$, $\lambda_u$, $\lambda_s$ and $\lambda_v$ are hyper-parameters. The middle layer $X_{L/2}$ serves as a bridge between the ratings and content information. 
+		\subsubsection{Neural Collaborative Filtering}
+		A multi-layer reprentation is used to model user-item interaction $y_{ui}$ as shown in below figure.
+		\begin{figure}[H]
+			\label{fig:ncf}
+			\centering
+			\includegraphics[scale=1.2]{ncf.png}
+			\caption{Neural Collaborative Filtering Model}
+		\end{figure}
+		The bottom input layer consists of two feature vectors $v_{u}^{U}$ and $v_{i}^{I}$ that describe user u and item i, respectively. As it is purely colloborative model, only user and item ids are taken as input in form of one-hot vectors. Above the input layer is the embedding layer; it is a fully connected layer that projects the sparse representation to a dense vector. The user embedding and item embedding are then fed into a multi-layer perceptron architecture to map the latent vectors to prediction scores.  The final output layer is the predicted score $\hat{y_{ui}}$, and training is performed by minimizing the pointwise loss between $\hat{y_{ui}}$
+		and its target value $y_{ui}$
 		
-		\begin{figure}[H]
-			\centering
-			\includegraphics[scale=0.7]{cdl.png}
-			\caption{Graphical model of CDL}
-		\end{figure}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[scale=0.7]{cdl1.png}
-			\caption{NN representation for degenerated CDL}
-		\end{figure}
 	\section{Experiments and Results}
 	\subsection{Clustering Based Approach}
 	\subsubsection{Calculating Similarity and Generating Recommendations}
@@ -282,13 +281,9 @@ Average     & 0.65      & 0.83
 		\bibitem{cfiltervid}Collaborative filtering Techniques \url{https://www.youtube.com/watch?v=h9gpufJFF-0}
 		\bibitem{mov}Movie Recommenation System \url{https://beckernick.github.io/matrix-factorization-recommender/}
 	\bibitem{ydeep} Paul Covington, Jay Adams, Emre Sargin \textit{Deep Neural Networks for YouTube Recommendations}, ACM 2016.
-	\bibitem{cdl} Hao Wang, Naiyan Wang, Dit-Yan Yeung\textit{Collaborative Deep Learning for Recommender Systems}, ACM 2015
+	\bibitem{ncf} Xiangnan He, Lizi Liao, Hanwang Zhang, Liqiang Nie, Xia Hu and Tat-Seng Chua\textit{Neural Collaborative Filtering}, ACM 2017
 	\bibitem{vid1} Lecture on CF - Stanford \url{https://www.youtube.com/watch?v=h9gpufJFF-0&t=854s}
 	\bibitem{vid2} Recommendation System Netflix \url{https://www.youtube.com/watch?v=bLhq63ygoU8&t=5598s}
-	\bibitem{sdae} P. Vincent, H. Larochelle, I. Lajoie, Y. Bengio, and
-	P.-A. Manzagol. \textit{Stacked denoising autoencoders:
-		Learning useful representations in a deep network with
-		a local denoising criterion.} JMLR, 11:3371â€“3408, 2010
 	\bibitem{cdli} CDL Implementation \url{https://github.com/hexiangnan/neural_collaborative_filtering}
 	
 	\bibitem{agg}Székely, G. J.; Rizzo, M. L. (2005). "Hierarchical clustering via Joint Between-Within Distances: Extending Ward's Minimum Variance Method". Journal of Classification

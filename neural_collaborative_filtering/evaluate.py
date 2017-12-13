@@ -1,11 +1,6 @@
 '''
-Created on Apr 15, 2016
-Evaluate the performance of Top-K recommendation:
-    Protocol: leave-1-out evaluation
-    Measures: Hit Ratio and NDCG
-    (more details are in: Xiangnan He, et al. Fast Matrix Factorization for Online Recommendation with Implicit Feedback. SIGIR'16)
-
-@author: hexiangnan
+@orginal-author: Xiangnan He (xiangnanhe@gmail.com)
+Original source from https://github.com/hexiangnan/neural_collaborative_filtering
 '''
 import math
 import heapq # for retrieval topK

@@ -9,3 +9,6 @@
 *.out
 *.gz
 *.pyc
+data/business.json
+data/review.json
+data/user.json

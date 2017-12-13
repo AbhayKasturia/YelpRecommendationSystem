@@ -1,8 +1,6 @@
 '''
-Created on Aug 8, 2016
-Processing datasets. 
-
-@author: Xiangnan He (xiangnanhe@gmail.com)
+@orginal-author: Xiangnan He (xiangnanhe@gmail.com)
+Original source from https://github.com/hexiangnan/neural_collaborative_filtering
 '''
 import scipy.sparse as sp
 import numpy as np
