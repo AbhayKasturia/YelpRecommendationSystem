@@ -136,7 +136,7 @@ This LaTex document was created Feb/Mar 2010 by Adriana Salerno and updated Feb 
 		
 		We first get the preference of each user by using top 15 categories for the above type of business in the location provided in input. So assuming we have type of business as Restaurants, then top 15 categories could be Indian, American, Bar and Grill, Chinese, so on and so forth. We denote this in form of a vector with elements in it where each element corresponds to each of the top 15 categories. Then for each of those categories, we get all the reviews the user has given for it. We average out the review value and assign the output as a value for that category. If the user has not reviewed a particular category we give the category a value of 3.15 which is the average pf 2.6 and 3.7. 2.6 and 3.7 is the range of our average review as mentioned in the pre-processing part. Thus we create a user preference vector with 15 values.
 		
-		Next, we create a business vector. This is because in order to recommend a business to a user, we need to create a similar preference vector as above for each business. we have the categories for which each business belongs to. Thus, we have a list of categories for each business. If at least 3 of the top categories are part of a business, then that business can be recommended to a user. After filtering out valid business which we can recommend, we create a business vector exactly like the user's preference vector. It is important to know that index of any category in user preference vector should correspond to index of that category in business vector.
+		Next, we create a business vector. This is because in order to recommend a business to a user, we need to create a similar preference vector as above for each business. We have the categories for which each business belongs to. Thus, we have a list of categories for each business. If at least 3 of the top categories are part of a business, then that business can be recommended to a user. After filtering out valid business which we can recommend, we create a business vector exactly like the user's preference vector. It is important to know that index of any category in user preference vector should correspond to index of that category in business vector. Also we take care that if a particular category is not reviewed in a particular business, then thst business does not serve thst category. So we assign a score of 1 to those categories in business vector.
 		
 		After this, we use Agglomerative Hierarchical Clustering\cite{agg} to cluster users. This method builds the hierarchy from the individual elements by progressively merging clusters using a distance metric. In our case we use Minkowski distance which is given by :
 		
@@ -248,22 +248,22 @@ In NDCG, we first calculate gain for each recommendation. The gain refers to the
 \hline
 City        & Hit Ratio & NDCG \\
 \hline
-Las Vegas   & 0.65      & 0.77 \\
-Toronto     & 0.65      & 0.89 \\
-Phoenix     & 0.70      & 0.82 \\
-Charlotte   & 0.63      & 0.86 \\
-Edinburgh   & 1.0       & 0.87  \\
-Pittsburgh  & 0.73      & 0.84 \\
-Montréal    & 0.63      & 0.88 \\
-Scottsdale  & 0.71      & 0.88 \\
-Cleveland   & 0.80      & 0.87 \\
-Madison     & 0.74      & 0.84 \\
-Stuttgart   & 0.5       & 0.66 \\
-Mesa        & 0.5       & 0.76 \\
-Tempe       & 0.48      & 0.79 \\
-Henderson   & 0.69      & 0.93 \\
-Mississauga & 0.35      & 0.68 \\
-Average     & 0.65      & 0.83 \\
+Las Vegas   & 0.58      & 0.78 \\
+Toronto     & 0.61      & 0.75 \\
+Phoenix     & 0.62      & 0.80 \\
+Charlotte   & 0.55      & 0.77 \\
+Edinburgh   & 0.60       & 0.81  \\
+Pittsburgh  & 0.44      & 0.78 \\
+Montréal    & 0.57      & 0.80 \\
+Scottsdale  & 0.69      & 0.91 \\
+Cleveland   & 0.64      & 0.89 \\
+Madison     & 0.64      & 0.78 \\
+Stuttgart   & 0.5       & 0.71 \\
+Mesa        & 0.41       & 0.52 \\
+Tempe       & 0.35      & 0.69 \\
+Henderson   & 0.65      & 0.88 \\
+Mississauga & 0.22      & 0.63 \\
+Average     & 0.55      & 0.78 \\
 \hline
 \end{tabular}
 \centering
